@@ -1,0 +1,11 @@
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\LineLaserMapping.exe.config
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\LineLaserMapping.exe
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\LineLaserMapping.pdb
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\Camera_NET.dll
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\DirectShowLib-2010.dll
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.csprojResolveAssemblyReference.cache
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.Properties.Resources.resources
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.csproj.GenerateResource.Cache
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.exe
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.pdb
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.MainForm.resources
