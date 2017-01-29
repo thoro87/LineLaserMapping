@@ -9,25 +9,38 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camera_NET;
 using DirectShowLib;
+using SerialCommunication;
 
 namespace LineLaserMapping {
 	public partial class MainForm : Form {
 
 		private CameraChoice cameraChoice = new CameraChoice();
+		private SerialCommunicator sCom = new SerialCommunicator();
 
 		public MainForm() {
 			InitializeComponent();
 			FillCameraList();
 			FillResolutionList();
+			FillPortList();
+			UpdateForm();
+		}
 
+		private void FillPortList() {
+			SerialPortInfo[] portInfos = sCom.GetPortNames();
+			comboBoxPort.Items.Clear();
+			comboBoxPort.Items.AddRange(portInfos);
+			SerialPortInfo arduinoPort = portInfos.FirstOrDefault(p => p.Name.Contains("Arduino"));
+			if (arduinoPort != null) {
+				comboBoxPort.SelectedItem = arduinoPort;
+			}
+		}
 
+		private void MainForm_FormClosed(object sender, FormClosedEventArgs e) {
+			cameraControl.CloseCamera();
+			sCom.Disconnect();
 		}
 
 		#region Camera_Internal
-		private void MainForm_FormClosed(object sender, FormClosedEventArgs e) {
-			cameraControl.CloseCamera();
-		}
-
 		private void comboBoxCameraList_SelectedIndexChanged(object sender, EventArgs e) {
 			if (comboBoxCameraList.SelectedIndex < 0) {
 				cameraControl.CloseCamera();
@@ -99,15 +112,31 @@ namespace LineLaserMapping {
 			Bitmap bitmap = null;
 			try {
 				bitmap = cameraControl.SnapshotSourceImage();
-
 			} catch {
 				Console.WriteLine("Error while catching next SourceImage");
 			}
 			return bitmap;
 		}
 
-		private void buttonSnapshot_MouseDown(object sender, MouseEventArgs e) {
+		private void UpdateForm() {
+			buttonConnect.Text = sCom.Connected ? "Disconnect" : "Connect";
+		}
+
+		private void ReceiveMessage(string str) {
+
+		}
+
+		private void buttonSnapshot_Click(object sender, EventArgs e) {
 			pictureBox1.Image = GetSnapshot();
+		}
+
+		private void buttonConnect_Click(object sender, EventArgs e) {
+			if (sCom.Connected) {
+				sCom.Disconnect();
+			} else {
+				sCom.Connect(this, ReceiveMessage, ((SerialPortInfo)comboBoxPort.SelectedItem).DeviceID);
+			}
+			UpdateForm();
 		}
 	}
 }

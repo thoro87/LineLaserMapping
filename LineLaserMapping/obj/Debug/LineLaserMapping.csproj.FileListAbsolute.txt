@@ -9,3 +9,4 @@ D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.csp
 D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.exe
 D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.pdb
 D:\CodeProjects\LineLaserMapping\LineLaserMapping\obj\Debug\LineLaserMapping.MainForm.resources
+D:\CodeProjects\LineLaserMapping\LineLaserMapping\bin\Debug\SerialCommunicator.dll

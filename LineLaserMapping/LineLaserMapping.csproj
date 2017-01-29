@@ -40,6 +40,10 @@
     <Reference Include="DirectShowLib-2010">
       <HintPath>lib\DirectShowLib-2010.dll</HintPath>
     </Reference>
+    <Reference Include="SerialCommunicator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\SerialCommunicator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -87,8 +91,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="lib\" />
+    <Content Include="lib\Camera_NET.dll" />
+    <Content Include="lib\DirectShowLib-2010.dll" />
+    <Content Include="lib\SerialCommunicator.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
