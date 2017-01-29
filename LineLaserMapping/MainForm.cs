@@ -78,7 +78,7 @@ namespace LineLaserMapping {
 				return;
 			}
 
-			cameraControl.SetCamera(cameraControl.Moniker, resolutions[5]);
+			cameraControl.SetCamera(cameraControl.Moniker, resolutions[0]);
 			int index_to_select = -1;
 
 			for (int index = 0; index < resolutions.Count; index++) {
@@ -95,6 +95,19 @@ namespace LineLaserMapping {
 		}
 		#endregion
 
+		private Bitmap GetSnapshot() {
+			Bitmap bitmap = null;
+			try {
+				bitmap = cameraControl.SnapshotSourceImage();
 
+			} catch {
+				Console.WriteLine("Error while catching next SourceImage");
+			}
+			return bitmap;
+		}
+
+		private void buttonSnapshot_MouseDown(object sender, MouseEventArgs e) {
+			pictureBox1.Image = GetSnapshot();
+		}
 	}
 }
