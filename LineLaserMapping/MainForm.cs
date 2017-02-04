@@ -16,6 +16,8 @@ namespace LineLaserMapping {
 
 		private CameraChoice cameraChoice = new CameraChoice();
 		private SerialCommunicator sCom = new SerialCommunicator();
+		private ImageComparer imgComparer = new ImageComparer();
+		private bool laserOn;
 
 		public MainForm() {
 			InitializeComponent();
@@ -120,14 +122,25 @@ namespace LineLaserMapping {
 
 		private void UpdateForm() {
 			buttonConnect.Text = sCom.Connected ? "Disconnect" : "Connect";
+			buttonSnapshot.Enabled = sCom.Connected && !laserOn;
 		}
 
 		private void ReceiveMessage(string str) {
-
+			if (str == "TurnedLaserOn") {
+				pictureBox2.Image = GetSnapshot();
+				sCom.SendMessage("LaserOff");
+				pictureBox3.Image = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image);
+			} else if (str == "TurnedLaserOff") {
+				laserOn = false;
+			}
+			UpdateForm();
 		}
 
 		private void buttonSnapshot_Click(object sender, EventArgs e) {
 			pictureBox1.Image = GetSnapshot();
+			sCom.SendMessage("LaserOn");
+			laserOn = true;
+			UpdateForm();
 		}
 
 		private void buttonConnect_Click(object sender, EventArgs e) {
