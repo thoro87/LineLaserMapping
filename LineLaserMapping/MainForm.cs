@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Camera_NET;
 using DirectShowLib;
 using SerialCommunication;
+using System.Threading;
 
 namespace LineLaserMapping {
 	public partial class MainForm : Form {
@@ -17,7 +18,7 @@ namespace LineLaserMapping {
 		private CameraChoice cameraChoice = new CameraChoice();
 		private SerialCommunicator sCom = new SerialCommunicator();
 		private ImageComparer imgComparer = new ImageComparer();
-		private bool laserOn;
+		private bool capturing;
 
 		public MainForm() {
 			InitializeComponent();
@@ -122,7 +123,7 @@ namespace LineLaserMapping {
 
 		private void UpdateForm() {
 			buttonConnect.Text = sCom.Connected ? "Disconnect" : "Connect";
-			buttonSnapshot.Enabled = sCom.Connected && !laserOn;
+			buttonSnapshot.Enabled = sCom.Connected && !capturing;
 		}
 
 		private void ReceiveMessage(string str) {
@@ -131,15 +132,15 @@ namespace LineLaserMapping {
 				sCom.SendMessage("LaserOff");
 				pictureBox3.Image = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image);
 			} else if (str == "TurnedLaserOff") {
-				laserOn = false;
-			}
+				capturing = false;
+            }
 			UpdateForm();
 		}
 
 		private void buttonSnapshot_Click(object sender, EventArgs e) {
+			capturing = true;
 			pictureBox1.Image = GetSnapshot();
 			sCom.SendMessage("LaserOn");
-			laserOn = true;
 			UpdateForm();
 		}
 

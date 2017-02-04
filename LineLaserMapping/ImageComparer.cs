@@ -7,11 +7,31 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LineLaserMapping {
+
+	class LaserSpot {
+		public int ImageWidth { get; set; }
+		public int ImageHeight { get; set; }
+		public byte Threshold { get; set; }
+
+		public int PosX { get; set; }
+		public int PosY { get; set; }
+		public double Difference { get; set; }
+
+		public bool IsOverThreashold { get { return Difference > Threshold; } }
+		public int PixelToCenter { get { return PosY - (ImageHeight / 2); } }
+
+		public LaserSpot(Bitmap img, int posX, byte threshold) {
+			ImageWidth = img.Width;
+			ImageHeight = img.Height;
+			PosX = posX;
+			Threshold = threshold;
+		}
+	}
+
 	class ImageComparer {
 
 		public unsafe Bitmap CompareImages(Bitmap img1, Bitmap img2) {
-			double threshold = 30d;
-			List<string> results = new List<string>();
+			byte threshold = 30;
 
 			BitmapData img1BmpData = img1.LockBits(new Rectangle(0, 0, img1.Width, img1.Height), ImageLockMode.ReadWrite, img1.PixelFormat);
 			BitmapData img2BmpData = img2.LockBits(new Rectangle(0, 0, img2.Width, img2.Height), ImageLockMode.ReadWrite, img2.PixelFormat);
@@ -22,30 +42,45 @@ namespace LineLaserMapping {
 			byte* img1Scan0 = (byte*)img1BmpData.Scan0.ToPointer();
 			byte* img2Scan0 = (byte*)img2BmpData.Scan0.ToPointer();
 
-			for (int height = 0; height < img1BmpData.Height; ++height) {
-				for (int width = 0; width < img1BmpData.Width; ++width) {
+			Dictionary<int, LaserSpot> laserSpots = new Dictionary<int, LaserSpot>();
+
+			for (int width = 0; width < img1BmpData.Width; ++width) {
+
+				// create LaserSpot
+				laserSpots[width] = new LaserSpot(img1, width, threshold);
+
+				for (int height = 0; height < img1BmpData.Height; ++height) {
 
 					byte* img1Data = img1Scan0 + height * img1BmpData.Stride + width * img1BitsPerPixel / 8;
 					byte* img2Data = img2Scan0 + height * img2BmpData.Stride + width * img2BitsPerPixel / 8;
 
 					// red diff
-					double diff = Math.Abs(img1Data[2] - img2Data[2]);
+					byte diff = (byte)Math.Abs(img1Data[2] - img2Data[2]);
 
 					// all diff
 					//double img1Magnitude = 1 / 3d * (img1Data[0] + img1Data[1] + img1Data[2]);
 					//double img2Magnitude = 1 / 3d * (img2Data[0] + img2Data[1] + img2Data[2]);
 					//double diff = Math.Abs(img1Magnitude - img2Magnitude);
 
-					if (diff > threshold) {
-						results.Add(String.Format("Width: {0}, Height: {1}, Diff: {2}", width, height, diff));
-						img1Data[0] = 0;
-						img1Data[1] = 0;
-						img1Data[2] = 0;
-					} else {
-						img1Data[0] = 255;
-						img1Data[1] = 255;
-						img1Data[2] = 255;
+					LaserSpot currentSpot = laserSpots[width];
+					if (currentSpot.Difference < diff) {
+						currentSpot.PosY = height;
+						currentSpot.Difference = diff;
 					}
+					
+					// grayScale Image
+					img1Data[0] = img1Data[1] = img1Data[2] = (byte)(255 - diff);
+
+					// black and white image
+					//if (diff > threshold) {
+					//	img1Data[0] = 0;
+					//	img1Data[1] = 0;
+					//	img1Data[2] = 0;
+					//} else {
+					//	img1Data[0] = 255;
+					//	img1Data[1] = 255;
+					//	img1Data[2] = 255;
+					//}
 
 				}
 			}

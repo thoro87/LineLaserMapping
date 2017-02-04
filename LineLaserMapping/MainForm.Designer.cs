@@ -80,7 +80,7 @@
 			this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pictureBox1.Location = new System.Drawing.Point(338, 12);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(320, 180);
+			this.pictureBox1.Size = new System.Drawing.Size(159, 88);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 4;
 			this.pictureBox1.TabStop = false;
@@ -106,9 +106,9 @@
 			// pictureBox2
 			// 
 			this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox2.Location = new System.Drawing.Point(664, 12);
+			this.pictureBox2.Location = new System.Drawing.Point(338, 104);
 			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(320, 180);
+			this.pictureBox2.Size = new System.Drawing.Size(159, 88);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox2.TabIndex = 7;
 			this.pictureBox2.TabStop = false;
@@ -116,7 +116,7 @@
 			// pictureBox3
 			// 
 			this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox3.Location = new System.Drawing.Point(664, 198);
+			this.pictureBox3.Location = new System.Drawing.Point(503, 12);
 			this.pictureBox3.Name = "pictureBox3";
 			this.pictureBox3.Size = new System.Drawing.Size(320, 180);
 			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -127,7 +127,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1019, 493);
+			this.ClientSize = new System.Drawing.Size(839, 493);
 			this.Controls.Add(this.pictureBox3);
 			this.Controls.Add(this.pictureBox2);
 			this.Controls.Add(this.buttonConnect);
