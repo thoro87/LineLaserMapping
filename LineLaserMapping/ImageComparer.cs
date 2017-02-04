@@ -27,10 +27,14 @@ namespace LineLaserMapping {
 
 					byte* img1Data = img1Scan0 + height * img1BmpData.Stride + width * img1BitsPerPixel / 8;
 					byte* img2Data = img2Scan0 + height * img2BmpData.Stride + width * img2BitsPerPixel / 8;
-					double img1Magnitude = 1 / 3d * (img1Data[0] + img1Data[1] + img1Data[2]);
-					double img2Magnitude = 1 / 3d * (img2Data[0] + img2Data[1] + img2Data[2]);
 
-					double diff = Math.Abs(img1Magnitude - img2Magnitude);
+					// red diff
+					double diff = Math.Abs(img1Data[2] - img2Data[2]);
+
+					// all diff
+					//double img1Magnitude = 1 / 3d * (img1Data[0] + img1Data[1] + img1Data[2]);
+					//double img2Magnitude = 1 / 3d * (img2Data[0] + img2Data[1] + img2Data[2]);
+					//double diff = Math.Abs(img1Magnitude - img2Magnitude);
 
 					if (diff > threshold) {
 						results.Add(String.Format("Width: {0}, Height: {1}, Diff: {2}", width, height, diff));
