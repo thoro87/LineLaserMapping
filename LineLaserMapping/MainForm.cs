@@ -130,11 +130,24 @@ namespace LineLaserMapping {
 			if (str == "TurnedLaserOn") {
 				pictureBox2.Image = GetSnapshot();
 				sCom.SendMessage("LaserOff");
-				pictureBox3.Image = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image);
+				Compare();
 			} else if (str == "TurnedLaserOff") {
 				capturing = false;
             }
 			UpdateForm();
+		}
+
+		private void Compare() {
+			ResultDO result = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image);
+			pictureBox3.Image = result.ResultImage;
+
+			LaserSpot left = result.LaserSpots[0];
+			LaserSpot center = result.LaserSpots[result.ResultImage.Width / 2];
+			LaserSpot right = result.LaserSpots[result.ResultImage.Width - 1];
+
+			labelLeftPixel.Text = left.IsOverThreashold ? left.PixelToCenter + " px" : "?";
+			labelCenterPixel.Text = center.IsOverThreashold ? center.PixelToCenter + " px" : "?";
+			labelRightPixel.Text = right.IsOverThreashold ? right.PixelToCenter + " px" : "?";
 		}
 
 		private void buttonSnapshot_Click(object sender, EventArgs e) {

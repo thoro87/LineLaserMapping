@@ -7,30 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LineLaserMapping {
-
-	class LaserSpot {
-		public int ImageWidth { get; set; }
-		public int ImageHeight { get; set; }
-		public byte Threshold { get; set; }
-
-		public int PosX { get; set; }
-		public int PosY { get; set; }
-		public double Difference { get; set; }
-
-		public bool IsOverThreashold { get { return Difference > Threshold; } }
-		public int PixelToCenter { get { return PosY - (ImageHeight / 2); } }
-
-		public LaserSpot(Bitmap img, int posX, byte threshold) {
-			ImageWidth = img.Width;
-			ImageHeight = img.Height;
-			PosX = posX;
-			Threshold = threshold;
-		}
-	}
-
 	class ImageComparer {
 
-		public unsafe Bitmap CompareImages(Bitmap img1, Bitmap img2) {
+		public unsafe ResultDO CompareImages(Bitmap img1, Bitmap img2) {
 			byte threshold = 30;
 
 			BitmapData img1BmpData = img1.LockBits(new Rectangle(0, 0, img1.Width, img1.Height), ImageLockMode.ReadWrite, img1.PixelFormat);
@@ -62,11 +41,14 @@ namespace LineLaserMapping {
 					//double img2Magnitude = 1 / 3d * (img2Data[0] + img2Data[1] + img2Data[2]);
 					//double diff = Math.Abs(img1Magnitude - img2Magnitude);
 
-					LaserSpot currentSpot = laserSpots[width];
-					if (currentSpot.Difference < diff) {
-						currentSpot.PosY = height;
-						currentSpot.Difference = diff;
+					if (height < img1.Height / 2) {
+						LaserSpot currentSpot = laserSpots[width];
+						if (currentSpot.Difference < diff) {
+							currentSpot.PosY = height;
+							currentSpot.Difference = diff;
+						}
 					}
+
 					
 					// grayScale Image
 					img1Data[0] = img1Data[1] = img1Data[2] = (byte)(255 - diff);
@@ -82,13 +64,22 @@ namespace LineLaserMapping {
 					//	img1Data[2] = 255;
 					//}
 
+					// horizon
+					if (height == (img1.Height / 2)) {
+						img1Data[0] = 255;
+						img1Data[1] = img1Data[2] = 0;
+                    }
+
 				}
 			}
 
 			img1.UnlockBits(img1BmpData);
 			img2.UnlockBits(img1BmpData);
 
-			return img1;
+			return new ResultDO {
+				ResultImage = img1,
+				LaserSpots = laserSpots
+			};
 		}
 
 		private byte GetBitsPerPixel(PixelFormat pixelFormat) {
