@@ -10,7 +10,7 @@ namespace LineLaserMapping {
 	class ImageComparer {
 
 		public unsafe ResultDO CompareImages(Bitmap img1, Bitmap img2) {
-			byte threshold = 30;
+			byte threshold = 60;
 
 			BitmapData img1BmpData = img1.LockBits(new Rectangle(0, 0, img1.Width, img1.Height), ImageLockMode.ReadWrite, img1.PixelFormat);
 			BitmapData img2BmpData = img2.LockBits(new Rectangle(0, 0, img2.Width, img2.Height), ImageLockMode.ReadWrite, img2.PixelFormat);
@@ -49,20 +49,8 @@ namespace LineLaserMapping {
 						}
 					}
 
-					
 					// grayScale Image
 					img1Data[0] = img1Data[1] = img1Data[2] = (byte)(255 - diff);
-
-					// black and white image
-					//if (diff > threshold) {
-					//	img1Data[0] = 0;
-					//	img1Data[1] = 0;
-					//	img1Data[2] = 0;
-					//} else {
-					//	img1Data[0] = 255;
-					//	img1Data[1] = 255;
-					//	img1Data[2] = 255;
-					//}
 
 					// horizon
 					if (height == (img1.Height / 2)) {
