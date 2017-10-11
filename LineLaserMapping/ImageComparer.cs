@@ -58,11 +58,17 @@ namespace LineLaserMapping {
 						img1Data[1] = img1Data[2] = 0;
                     }
 
+                    // vertical
+                    if (width == (img1.Width / 2)) {
+                        img1Data[0] = 255;
+                        img1Data[1] = img1Data[2] = 0;
+                    }
+
 				}
 			}
 
 			img1.UnlockBits(img1BmpData);
-			img2.UnlockBits(img1BmpData);
+			img2.UnlockBits(img2BmpData);
 
 			return new ResultDO {
 				ResultImage = img1,

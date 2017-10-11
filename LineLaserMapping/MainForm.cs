@@ -146,9 +146,16 @@ namespace LineLaserMapping {
 			LaserSpot right = result.LaserSpots[result.ResultImage.Width - 1];
 
 			labelLeftPixel.Text = left.IsOverThreashold ? left.PixelToCenter + " px" : "?";
-			labelCenterPixel.Text = center.IsOverThreashold ? center.PixelToCenter + " px" : "?";
-			labelRightPixel.Text = right.IsOverThreashold ? right.PixelToCenter + " px" : "?";
-		}
+            labelLeftDist.Text = left.IsOverThreashold ? left.Distance + " cm" : "?";
+            labelCenterPixel.Text = center.IsOverThreashold ? center.PixelToCenter + " px" : "?";
+            labelCenterDist.Text = center.IsOverThreashold ? center.Distance + " cm" : "?";
+            labelRightPixel.Text = right.IsOverThreashold ? right.PixelToCenter + " px" : "?";
+            labelRightDist.Text = right.IsOverThreashold ? right.Distance + " cm" : "?";
+
+            Bitmap bitmap = new Bitmap(200, 200);
+            bitmap.SetPixel(10, 10, Color.Red);
+            resultPictureBox.Image = bitmap;
+        }
 
 		private void buttonSnapshot_Click(object sender, EventArgs e) {
 			capturing = true;
@@ -165,5 +172,5 @@ namespace LineLaserMapping {
 			}
 			UpdateForm();
 		}
-	}
+    }
 }
