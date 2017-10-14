@@ -138,12 +138,13 @@ namespace LineLaserMapping {
 		}
 
 		private void Compare() {
-			ResultDO result = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image);
-			pictureBox3.Image = result.ResultImage;
-
+			ResultDO result = imgComparer.CompareImages((Bitmap)pictureBox1.Image, (Bitmap)pictureBox2.Image, resultPictureBox.BackgroundImage);
+			pictureBox3.Image = result.DiffImage;
+            resultPictureBox.Image = result.ResultImage;
+            
 			LaserSpot left = result.LaserSpots[0];
-			LaserSpot center = result.LaserSpots[result.ResultImage.Width / 2];
-			LaserSpot right = result.LaserSpots[result.ResultImage.Width - 1];
+			LaserSpot center = result.LaserSpots[result.DiffImage.Width / 2];
+			LaserSpot right = result.LaserSpots[result.DiffImage.Width - 1];
 
 			labelLeftPixel.Text = left.IsOverThreashold ? left.PixelToCenter + " px" : "?";
             labelLeftDist.Text = left.IsOverThreashold ? left.Distance + " cm" : "?";
@@ -151,10 +152,6 @@ namespace LineLaserMapping {
             labelCenterDist.Text = center.IsOverThreashold ? center.Distance + " cm" : "?";
             labelRightPixel.Text = right.IsOverThreashold ? right.PixelToCenter + " px" : "?";
             labelRightDist.Text = right.IsOverThreashold ? right.Distance + " cm" : "?";
-
-            Bitmap bitmap = new Bitmap(200, 200);
-            bitmap.SetPixel(10, 10, Color.Red);
-            resultPictureBox.Image = bitmap;
         }
 
 		private void buttonSnapshot_Click(object sender, EventArgs e) {

@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.cameraControl = new Camera_NET.CameraControl();
             this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
@@ -323,10 +324,11 @@
             // 
             // resultPictureBox
             // 
-            this.resultPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.resultPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultPictureBox.BackgroundImage")));
+            this.resultPictureBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("resultPictureBox.InitialImage")));
             this.resultPictureBox.Location = new System.Drawing.Point(338, 254);
             this.resultPictureBox.Name = "resultPictureBox";
-            this.resultPictureBox.Size = new System.Drawing.Size(482, 227);
+            this.resultPictureBox.Size = new System.Drawing.Size(480, 400);
             this.resultPictureBox.TabIndex = 18;
             this.resultPictureBox.TabStop = false;
             // 
@@ -334,7 +336,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(839, 493);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(839, 666);
             this.Controls.Add(this.resultPictureBox);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
